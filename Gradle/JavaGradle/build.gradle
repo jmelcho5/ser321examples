@@ -51,6 +51,26 @@ task runFraction(type: JavaExec) {
   main = 'Fraction'
 }
 
+// task that runs the Fraction Main which does not use arguments: gradle runFraction
+task runFrac(type: JavaExec) {
+  group 'Fraction Tasks'
+  description 'Tasks which runs Fraction with default parameters or given values'
+
+  classpath = sourceSets.main.runtimeClasspath
+
+  main = 'Fraction'
+
+  if (project.hasProperty("num") && project.hasProperty("denom")) {
+    args(project.getProperty('num'), project.getProperty('denom'));
+  } else if (project.hasProperty("num")) {
+    args(project.getProperty('num'), 2);
+  } else if (project.hasProperty("denom")) {
+    args(1, project.getProperty('denom'));
+  } else {
+    args(3, 4);
+  }
+}
+
 // Try:
 // 1. Change Fraction.main so it accepts 2 arguments
 // 2. Create a new gradle tasks that accepts two arguments and 
