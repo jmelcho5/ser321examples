@@ -21,7 +21,7 @@ public class Fraction {
     System.out.print(numerator + "/" + denominator );
    }
 
-   public void setNumerator (int n ){
+   public void setNumerator (int n){
       numerator = n;
    }
 
@@ -38,22 +38,31 @@ public class Fraction {
    }
 
    public static void main (String args[]) {
-      try {
-         // create a new instance
-         // Fraction *frac = [[Fraction alloc] init];
-         Fraction frac = new Fraction();
+      if (args.length == 2) {
+         int argN = 0;
+         int argD = 0;
+         try {
+            // create a new instance
+            // Fraction *frac = [[Fraction alloc] init];
+            Fraction frac = new Fraction();
 
-         // set the values
-         frac.setNumerator(1);
-         frac.setDenominator(3);
+            argN = Integer.parseInt(args[0]);
+            argD = Integer.parseInt(args[1]);
 
-         // print it
-         System.out.print("The fraction is: ");
-         frac.print();
-         System.out.println("");
+            // set the values
+            frac.setNumerator(argN);
+            frac.setDenominator(argD);
 
-      }catch(Exception e) {
-         e.printStackTrace();
+            // print it
+            System.out.print("The fraction is: " + frac.getNumerator() + " / " + frac.getDenominator() + " = ");
+            frac.print();
+            System.out.println("");
+
+         }catch(Exception e) {
+            e.printStackTrace();
+         }
+      } else {
+         System.out.println("Exactly 2 arguments should be provided.\n gradle runFrac -Pdenom=4 -Pnum=3 or gradle runFrac -Pnum=3 -Pdenom=4");
       }
    }
 }
