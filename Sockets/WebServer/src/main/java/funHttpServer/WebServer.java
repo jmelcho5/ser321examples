@@ -245,17 +245,17 @@ class WebServer {
                 builder.append("num2 not entered...Generating default value for num2\n");
                 number2 = 7;
               }
-            } finally{
-
-              Integer multiply = number1 * number2;
-
-              builder.append("HTTP/1.1 200 OK\n");
-              builder.append("Content-Type: text/html; charset=utf-8\n");
-              builder.append("\n");
-              builder.append("Result is: " + multiply);
-
-              builder.append("Please enter next query as: multiply?num1=< integerValue>&num2=<integerValue>\n");
             }
+          } finally {
+
+            Integer multiply = number1 * number2;
+
+            builder.append("HTTP/1.1 200 OK\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Result is: " + multiply);
+
+            builder.append("Please enter next query as: multiply?num1=< integerValue>&num2=<integerValue>\n");
           }
 
         } else if (request.contains("github?")) {
