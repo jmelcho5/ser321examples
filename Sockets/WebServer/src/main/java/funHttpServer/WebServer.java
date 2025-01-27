@@ -237,23 +237,14 @@ class WebServer {
               builder.append("HTTP/1.1 400 Bad Request\n");
               builder.append("Content-Type: text/html; charset=utf-8\n");
               builder.append("\n");
-
-              if (number1 == null) {
-                builder.append("Error Code 400: num1 not entered.\n");
-              } else if (number2 == null) {
-                builder.append("Error Code 400: num2 not entered.\n");
-              }
+              builder.append("Error Code 400: Please enter two query parameters, e.g. num1=1&num2=2\n");
             }
           } catch (NumberFormatException numberFormatException) {
             builder.append("HTTP/1.1 406 Not Acceptable\n");
             builder.append("Content-Type: text/html; charset=utf-8\n");
             builder.append("\n");
             builder.append("Error Code 406: Please enter integer values only.\n");
-          } finally {
-            builder.append("\n");
-            builder.append("Please enter query as: multiply?num1=< integerValue>&num2=<integerValue>\n");
           }
-
         } else if (request.contains("github?")) {
           // pulls the query from the request and runs it with GitHub's REST API
           // check out https://docs.github.com/rest/reference/
