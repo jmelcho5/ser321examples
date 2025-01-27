@@ -224,29 +224,6 @@ class WebServer {
           try {
             number1 = Integer.parseInt(query_pairs.get("num1"));
             number2 = Integer.parseInt(query_pairs.get("num2"));
-          } catch (NumberFormatException numberFormatException) {
-            builder.append("HTTP/1.1 406 Not Acceptable\n");
-            builder.append("Content-Type: text/html; charset=utf-8\n");
-            builder.append("\n");
-            builder.append("Please enter integer values only.\n");
-            builder.append("Sample query: multiply?num1=1&num2=2\n");
-            number1 = 1;
-            number2 = 2;
-          } catch (NullPointerException nullPointerException) {
-            if (number1 == null || number2 == null || (number1 == null && number2 == null)) {
-              builder.append("HTTP/1.1 400 Bad Request\n");
-              builder.append("Content-Type: text/html; charset=utf-8\n");
-              builder.append("\n");
-
-              if (number1 == null) {
-                builder.append("num1 not entered...Generating default value for num1\n");
-                number1 = 5;
-              } else if (number2 == null) {
-                builder.append("num2 not entered...Generating default value for num2\n");
-                number2 = 7;
-              }
-            }
-          } finally {
 
             Integer multiply = number1 * number2;
 
@@ -255,6 +232,26 @@ class WebServer {
             builder.append("\n");
             builder.append("Result is: " + multiply);
 
+          } catch (NumberFormatException numberFormatException) {
+            builder.append("HTTP/1.1 406 Not Acceptable\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Error Code 406: Please enter integer values only.\n");
+          } catch (NullPointerException nullPointerException) {
+            if (number1 == null || number2 == null || (number1 == null && number2 == null)) {
+              builder.append("HTTP/1.1 400 Bad Request\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+
+              if (number1 == null) {
+                builder.append("Error Code 400: num1 not entered.\n");
+                number1 = 5;
+              } else if (number2 == null) {
+                builder.append("Error Code 400: num2 not entered...Generating default value for num2\n");
+                number2 = 7;
+              }
+            }
+          } finally {
             builder.append("Please enter next query as: multiply?num1=< integerValue>&num2=<integerValue>\n");
           }
 
