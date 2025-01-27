@@ -217,8 +217,8 @@ class WebServer {
 
           // TODO: Include error handling here with a correct error code and
           // a response that makes sense
-          Integer number1;
-          Integer number2;
+          Integer number1 = 0;
+          Integer number2 = 0;
 
           try {
             number1 = num1;
