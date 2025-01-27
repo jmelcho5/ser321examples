@@ -201,13 +201,18 @@ class WebServer {
           // extract path parameters
           query_pairs = splitQuery(request.replace("multiply?", ""));
 
+          // Integer to store values of parameters
+          Integer number1 = 0;
+          Integer number2 = 0;
           // Variable of type int to store whether path parameters are valid
           int valid = 1;
 
           try {
             // extract required fields from parameters
             Integer num1 = Integer.parseInt(query_pairs.get("num1"));
+            number1 = num1;
             Integer num2 = Integer.parseInt(query_pairs.get("num2"));
+            number2 = num2;
           } catch (NullPointerException nullPointerException) {
             builder.append("HTTP/1.1 400 Bad Request\n");
             builder.append("Content-Type: text/html; charset=utf-8\n");
@@ -224,7 +229,7 @@ class WebServer {
 
           if (valid == 1) {
             // do math
-            Integer result = num1 * num2;
+            Integer result = number1 * number2;
 
             // Generate response
             builder.append("HTTP/1.1 200 OK\n");
