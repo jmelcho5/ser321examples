@@ -201,23 +201,26 @@ class WebServer {
           // extract path parameters
           query_pairs = splitQuery(request.replace("multiply?", ""));
 
-          // extract required fields from parameters
-          Integer num1 = Integer.parseInt(query_pairs.get("num1"));
-          Integer num2 = Integer.parseInt(query_pairs.get("num2"));
-
-          // do math
-          Integer result = num1 * num2;
-
-          // Generate response
-          builder.append("HTTP/1.1 200 OK\n");
-          builder.append("Content-Type: text/html; charset=utf-8\n");
-          builder.append("\n");
-          builder.append("Result is: " + result);
+//          try {
+//            // extract required fields from parameters
+//            Integer num1 = Integer.parseInt(query_pairs.get("num1"));
+//            Integer num2 = Integer.parseInt(query_pairs.get("num2"));
+//
+//            // do math
+//            Integer result = num1 * num2;
+//
+//            // Generate response
+//            builder.append("HTTP/1.1 200 OK\n");
+//            builder.append("Content-Type: text/html; charset=utf-8\n");
+//            builder.append("\n");
+//            builder.append("Result is: " + result);
+//          }
 
           // TODO: Include error handling here with a correct error code and
           // a response that makes sense
           Integer number1 = null;
           Integer number2 = null;
+
           try {
             number1 = Integer.parseInt(query_pairs.get("num1"));
             number2 = Integer.parseInt(query_pairs.get("num2"));
@@ -226,6 +229,9 @@ class WebServer {
             builder.append("Content-Type: text/html; charset=utf-8\n");
             builder.append("\n");
             builder.append("Please enter integer values only.\n");
+            builder.append("Sample query: multiply?num1=1&num2=2\n");
+            number1 = 1;
+            number2 = 2;
           } catch (NullPointerException nullPointerException) {
             if (number1 == null || number2 == null || (number1 == null && number2 == null)) {
               builder.append("HTTP/1.1 400 Bad Request\n");
@@ -239,14 +245,17 @@ class WebServer {
                 builder.append("num2 not entered...Generating default value for num2\n");
                 number2 = 7;
               }
+            } finally{
+
+              Integer multiply = number1 * number2;
+
+              builder.append("HTTP/1.1 200 OK\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("Result is: " + multiply);
+
+              builder.append("Please enter next query as: multiply?num1=< integerValue>&num2=<integerValue>\n");
             }
-
-            Integer multiply = number1 * number2;
-
-            builder.append("\n");
-            builder.append("Result is: " + multiply);
-
-            builder.append("Please enter next query as: multiply?num1=< integerValue>&num2=<integerValue>\n");
           }
 
         } else if (request.contains("github?")) {
