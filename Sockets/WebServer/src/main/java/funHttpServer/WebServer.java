@@ -221,10 +221,10 @@ class WebServer {
 //          Integer number1 = null;
 //          Integer number2 = null;
 
-          try {
-            Integer number1 = Integer.parseInt(query_pairs.get("num1"));
-            Integer number2 = Integer.parseInt(query_pairs.get("num2"));
+          Integer number1 = Integer.parseInt(query_pairs.get("num1"));
+          Integer number2 = Integer.parseInt(query_pairs.get("num2"));
 
+          try {
             Integer multiply = number1 * number2;
 
             builder.append("HTTP/1.1 200 OK\n");
