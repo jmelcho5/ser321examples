@@ -232,11 +232,6 @@ class WebServer {
             builder.append("\n");
             builder.append("Result is: " + multiply);
 
-          } catch (NumberFormatException numberFormatException) {
-            builder.append("HTTP/1.1 406 Not Acceptable\n");
-            builder.append("Content-Type: text/html; charset=utf-8\n");
-            builder.append("\n");
-            builder.append("Error Code 406: Please enter integer values only.\n");
           } catch (NullPointerException nullPointerException) {
             if (number1 == null || number2 == null || (number1 == null && number2 == null)) {
               builder.append("HTTP/1.1 400 Bad Request\n");
@@ -245,14 +240,18 @@ class WebServer {
 
               if (number1 == null) {
                 builder.append("Error Code 400: num1 not entered.\n");
-                number1 = 5;
               } else if (number2 == null) {
-                builder.append("Error Code 400: num2 not entered...Generating default value for num2\n");
-                number2 = 7;
+                builder.append("Error Code 400: num2 not entered.\n");
               }
             }
+          } catch (NumberFormatException numberFormatException) {
+            builder.append("HTTP/1.1 406 Not Acceptable\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Error Code 406: Please enter integer values only.\n");
           } finally {
-            builder.append("Please enter next query as: multiply?num1=< integerValue>&num2=<integerValue>\n");
+            builder.append("\n");
+            builder.append("Please enter query as: multiply?num1=< integerValue>&num2=<integerValue>\n");
           }
 
         } else if (request.contains("github?")) {
