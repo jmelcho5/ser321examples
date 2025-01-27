@@ -218,12 +218,12 @@ class WebServer {
 
           // TODO: Include error handling here with a correct error code and
           // a response that makes sense
-          Integer number1 = null;
-          Integer number2 = null;
+//          Integer number1 = null;
+//          Integer number2 = null;
 
           try {
-            number1 = Integer.parseInt(query_pairs.get("num1"));
-            number2 = Integer.parseInt(query_pairs.get("num2"));
+            Integer number1 = Integer.parseInt(query_pairs.get("num1"));
+            Integer number2 = Integer.parseInt(query_pairs.get("num2"));
 
             Integer multiply = number1 * number2;
 
