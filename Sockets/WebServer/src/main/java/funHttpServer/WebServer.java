@@ -221,39 +221,32 @@ class WebServer {
           try {
             number1 = Integer.parseInt(query_pairs.get("num1"));
             number2 = Integer.parseInt(query_pairs.get("num2"));
-          } catch (Exception e) {
-            if (number1 = null || number2 = null || (number1 = null && number2 = null)) {
+          } catch (NumberFormatException numberFormatException) {
+            builder.append("HTTP/1.1 406 Not Acceptable\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Please enter integer values only.\n");
+          } catch (NullPointerException nullPointerException) {
+            if (number1 == null || number2 == null || (number1 == null && number2 == null)) {
               builder.append("HTTP/1.1 400 Bad Request\n");
               builder.append("Content-Type: text/html; charset=utf-8\n");
               builder.append("\n");
 
-              if (number1 = null) {
+              if (number1 == null) {
                 builder.append("num1 not entered...Generating default value for num1\n");
                 number1 = 5;
-              } else if (number2 = null) {
+              } else if (number2 == null) {
                 builder.append("num2 not entered...Generating default value for num2\n");
                 number2 = 7;
               }
-            } else if (isNaN(number1) || isNaN(number2) || (isNan(number1) && isNan(number2))) {
-              builder.append("HTTP/1.1 406 Not Acceptable\n");
-              builder.append("Content-Type: text/html; charset=utf-8\n");
-              builder.append("\n");
-
-              if (isNaN(number1)) {
-                builder.append("Value for num1 is not an integer...Generating default value for num1\n");
-                number1 = 5;
-              } else if (isNaN) {
-                builder.append("Value for num2 is not an integer...Generating default value for num2\n");
-                number2 = 7;
-              }
             }
-          } finally {
+
             Integer multiply = number1 * number2;
 
             builder.append("\n");
             builder.append("Result is: " + multiply);
 
-            builder.append("Please enter query as: multiply?num1=< integerValue>&num2=<integerValue>\n");
+            builder.append("Please enter next query as: multiply?num1=< integerValue>&num2=<integerValue>\n");
           }
 
         } else if (request.contains("github?")) {
