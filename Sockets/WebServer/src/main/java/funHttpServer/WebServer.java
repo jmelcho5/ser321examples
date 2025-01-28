@@ -210,10 +210,13 @@ class WebServer {
             error_code = 400;
           }
 
+          Integer num1 = null;
+          Integer num2 = null;
+
           try {
             // extract required fields from parameters
-            Integer num1 = Integer.parseInt(query_pairs.get("num1"));
-            Integer num2 = Integer.parseInt(query_pairs.get("num2"));
+            num1 = Integer.parseInt(query_pairs.get("num1"));
+            num2 = Integer.parseInt(query_pairs.get("num2"));
           } catch (NumberFormatException numberFormatException) {
             error_code = 406;
           } finally {
