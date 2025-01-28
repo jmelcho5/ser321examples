@@ -200,14 +200,44 @@ class WebServer {
           Map<String, String> query_pairs = new LinkedHashMap<String, String>();
           // extract path parameters
           query_pairs = splitQuery(request.replace("multiply?", ""));
-          System.out.println("Query: " + query_pairs + ".\n");
 
-//          // Variable of type int to store whether query parameters are valid
-//          int valid = 1;
-//
-//          // extract required fields from parameters
-//          Integer num1 = Integer.parseInt(query_pairs.get("num1"));
-//          Integer num2 = Integer.parseInt(query_pairs.get("num2"));
+         // System.out.println("Query: " + query_pairs + ".\n");
+
+          // Variable of type int to store error code when query is invalid
+          int error_code = 200;
+
+          if (query_pairs.size() == 0 || query_pairs.size() == 1 || query_pairs.size > 2) {
+            error_code = 400;
+          }
+
+          try {
+            // extract required fields from parameters
+            Integer num1 = Integer.parseInt(query_pairs.get("num1"));
+            Integer num2 = Integer.parseInt(query_pairs.get("num2"));
+          } catch (NumberFormatException numberFormatException) {
+            error_code = 406;
+          } finally {
+            if (error_code == 200) {
+              // do math
+              Integer result = number1 * number2;
+
+              // Generate response
+              builder.append("HTTP/1.1 200 OK\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("Result is: " + result);
+            } else if (error_code == 400) {
+              builder.append("HTTP/1.1 400 Bad Request\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("Error Code 400: Please enter two query parameters, e.g. num1=1&num2=2\n");
+            } else if (error_code == 406) {
+              builder.append("HTTP/1.1 406 Not Acceptable\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("Error Code 406: Please enter integer values only.\n");
+            }
+          }
 //
 ////          // Integer to store values of parameters
 ////          Integer number1 = null;
