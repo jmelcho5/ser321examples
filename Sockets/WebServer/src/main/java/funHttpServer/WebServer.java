@@ -213,17 +213,17 @@ class WebServer {
             number1 = num1;
             Integer num2 = Integer.parseInt(query_pairs.get("num2"));
             number2 = num2;
-          } catch (IllegalArgumentException illegalArgumentException) {
-            builder.append("HTTP/1.1 400 Bad Request\n");
-            builder.append("Content-Type: text/html; charset=utf-8\n");
-            builder.append("\n");
-            builder.append("Error Code 400: Please enter two query parameters, e.g. num1=1&num2=2\n");
-            valid = 0;
           } catch (NumberFormatException numberFormatException) {
             builder.append("HTTP/1.1 406 Not Acceptable\n");
             builder.append("Content-Type: text/html; charset=utf-8\n");
             builder.append("\n");
             builder.append("Error Code 406: Please enter integer values only.\n");
+            valid = 0;
+          }catch (IllegalArgumentException illegalArgumentException) {
+            builder.append("HTTP/1.1 400 Bad Request\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Error Code 400: Please enter two query parameters, e.g. num1=1&num2=2\n");
             valid = 0;
           }
 
