@@ -250,8 +250,6 @@ class WebServer {
           // TODO: Include error handling here with a correct error code and
           // a response that makes sense
 
-          // NEED TO HANDLE WHEN NO PARAMETERS/INPUTS ARE ENTERED
-
           if (query_pairs.size() == 0 || !query_pairs.containsKey("num1") || !query_pairs.containsKey("num2")) {
             builder.append("HTTP/1.1 400 Bad Request\n");
             builder.append("Content-Type: text/html; charset=utf-8\n");
@@ -278,63 +276,6 @@ class WebServer {
             }
           }
 
-//          Integer num1 = null; Integer.parseInt(query_pairs.get("num1"));
-//          Integer num2 = null; Integer.parseInt(query_pairs.get("num2"));
-//
-//          Integer multiply = null;
-//
-//          try {
-//            num1 = Integer.parseInt(query_pairs.get("num1"));
-//            num2 = Integer.parseInt(query_pairs.get("num2"));
-//          } catch (IllegalArgumentException e) {
-//            builder.append("HTTP/1.1 400 Bad Request\n");
-//            builder.append("Content-Type: text/html; charset=utf-8\n");
-//            builder.append("\n");
-//            builder.append("Error Code 400: Please enter two query parameters, e.g. num1=1&num2=2\n");
-//            valid = 0;
-//          }
-//
-//          try {
-//            multiply = num1 * num2;
-//
-//            // Generate response
-//            builder.append("HTTP/1.1 200 OK\n");
-//            builder.append("Content-Type: text/html; charset=utf-8\n");
-//            builder.append("\n");
-//            builder.append("Result is: " + multiply);
-//          } catch (NumberFormatException numberFormatException) {
-//            builder.append("HTTP/1.1 406 Not Acceptable\n");
-//            builder.append("Content-Type: text/html; charset=utf-8\n");
-//            builder.append("\n");
-//            builder.append("Error Code 406: Please enter integer values only.\n");
-//            valid = 0;
-//          }
-
-//          if (query_pairs == null) {
-//            builder.append("HTTP/1.1 400 Bad Request\n");
-//            builder.append("Content-Type: text/html; charset=utf-8\n");
-//            builder.append("\n");
-//            builder.append("Error Code 400: Please enter two query parameters, e.g. num1=1&num2=2\n");
-//            valid = 0;
-//          } else if (!query_pairs.containsKey("num1") || !query_pairs.containsKey("num2")) {
-//            builder.append("HTTP/1.1 400 Bad Request\n");
-//            builder.append("Content-Type: text/html; charset=utf-8\n");
-//            builder.append("\n");
-//            builder.append("Error Code 400: Please enter two query parameters, e.g. num1=1&num2=2\n");
-//            valid = 0;
-//          } else {
-//            try {
-//              num1 = Integer.parseInt(query_pairs.get("num1"));
-//              num2 = Integer.parseInt(query_pairs.get("num2"));
-//            } catch (NumberFormatException numberFormatException) {
-//              builder.append("HTTP/1.1 406 Not Acceptable\n");
-//              builder.append("Content-Type: text/html; charset=utf-8\n");
-//              builder.append("\n");
-//              builder.append("Error Code 406: Please enter integer values only.\n");
-//              valid = 0;
-//            }
-//          }
-
         } else if (request.contains("github?")) {
           // pulls the query from the request and runs it with GitHub's REST API
           // check out https://docs.github.com/rest/reference/
@@ -345,7 +286,15 @@ class WebServer {
           //     "/repos/OWNERNAME/REPONAME/contributors"
 
           Map<String, String> query_pairs = new LinkedHashMap<String, String>();
-          query_pairs = splitQuery(request.replace("github?", ""));
+
+          String parameters = request.replace("github?", "");
+
+          if (!parameters.equals("")) {
+            query_pairs = splitQuery(request.replace("github?", ""));
+          }
+
+          System.out.println("query_pairs: " + query_pairs);
+
           String json = fetchURL("https://api.github.com/" + query_pairs.get("query"));
           System.out.println(json);
 
@@ -355,6 +304,13 @@ class WebServer {
           builder.append("Check the todos mentioned in the Java source file");
           // TODO: Parse the JSON returned by your fetch and create an appropriate
           // response based on what the assignment document asks for
+
+          if (query_pairs.size() == 0) {
+            builder.append("HTTP/1.1 400 Bad Request\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Please enter query, e.g. query=users/amehlhase316/repos\n");
+          }
 
         } else {
           // if the request is not recognized at all
