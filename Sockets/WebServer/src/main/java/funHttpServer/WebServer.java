@@ -331,11 +331,10 @@ class WebServer {
 
               for (int i = 0; i < gitHubArray.length(); i++) {
                 JSONObject newRepo = gitHubArray.getJSONObject(i);
-
-                System.out.println("Repo: " + newRepo);
+                System.out.println("Repo: " + newRepo + "\n");
 
                 String repoName = newRepo.getString("full_name");
-                String repoID = newRepo.getString("id");
+                int repoID = (int) newRepo.getString("id");
                 String login = newRepo.getJSONObject("owner").getString("login");
 
                 builder.append("Repository " + i + " - fullname: " + repoName + " id: " + repoID + " login: " + login + "\n");
