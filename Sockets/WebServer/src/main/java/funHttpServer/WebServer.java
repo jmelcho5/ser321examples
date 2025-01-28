@@ -200,6 +200,7 @@ class WebServer {
           Map<String, String> query_pairs = new LinkedHashMap<String, String>();
           // extract path parameters
           query_pairs = splitQuery(request.replace("multiply?", ""));
+          System.out.println("Query: " + query_pairs + ".\n");
 
           // Variable of type int to store whether query parameters are valid
           int valid = 1;
