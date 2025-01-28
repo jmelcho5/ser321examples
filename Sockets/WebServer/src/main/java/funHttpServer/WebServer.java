@@ -317,10 +317,14 @@ class WebServer {
             builder.append("\n");
             builder.append("Github could not be found. Please try again.\n");
           } else {
-            JSONArray gitHubArray = null;
-            try {
-              gitHubArray = new JSONArray(json);
+            JSONArray gitHubArray = new JSONArray(json);
 
+            if (gitHubArray.length() == 0) {
+              builder.append("HTTP/1.1 204 No Content\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("This github does not have public repositories.\n");
+            } else {
               builder.append("HTTP/1.1 200 OK\n");
               builder.append("Content-Type: text/html; charset=utf-8\n");
               builder.append("\n");
@@ -335,11 +339,6 @@ class WebServer {
                 builder.append("Repository " + i + " - fullname: " + repoName + " id: " + repoID + " login: " + login + "\n");
                 builder.append("\n");
               }
-            } catch (Exception e) {
-              builder.append("HTTP/1.1 204 No Content\n");
-              builder.append("Content-Type: text/html; charset=utf-8\n");
-              builder.append("\n");
-              builder.append("This github does not have public repositories.\n");
             }
           }
         } else {
