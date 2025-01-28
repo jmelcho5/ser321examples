@@ -299,7 +299,7 @@ class WebServer {
 
           String json = fetchURL("https://api.github.com/" + query_pairs.get("query"));
           System.out.println("JSON: " + json);
-          System.out.println("Is JSON Empty: " + json.isEmpty());
+          System.out.println("JSON size: " + json.length());
 
 //          builder.append("HTTP/1.1 200 OK\n");
 //          builder.append("Content-Type: text/html; charset=utf-8\n");
