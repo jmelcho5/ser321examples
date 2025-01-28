@@ -295,11 +295,7 @@ class WebServer {
           }
 
           String[] queryParam = query_pairs.get("query").split("/");
-          for (String queryParams : queryParam) {
-            System.out.println(queryParams);
-          }
-          System.out.println(queryParam[0]);
-          System.out.println(queryParam[2]);
+          System.out.println("Query size: " + queryParam.length);
 
           String json = fetchURL("https://api.github.com/" + query_pairs.get("query"));
           System.out.println(json);
@@ -316,11 +312,16 @@ class WebServer {
             builder.append("Content-Type: text/html; charset=utf-8\n");
             builder.append("\n");
             builder.append("Please enter query, e.g. query=users/OWNERNAME/repos\n");
-          } else if (queryParam.length != 3 || (!queryParam[0].equals("users") || !queryParam[2].equals("repos"))) {
+          } else if (queryParam.length != 3) {
             builder.append("HTTP/1.1 400 Bad Request\n");
             builder.append("Content-Type: text/html; charset=utf-8\n");
             builder.append("\n");
-            builder.append("Please enter valid query, e.g. query=users/OWNERNAME/repos\n");
+            builder.append("Please enter query, e.g. query=users/OWNERNAME/repos\n");
+          } else if (!queryParam[0].equals("user") || !queryParam[2].equals("repos")) {
+            builder.append("HTTP/1.1 400 Bad Request\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Please enter query, e.g. query=users/OWNERNAME/repos\n");
           } else if (json.equals("")) {
             builder.append("HTTP/1.1 404 Not Found\n");
             builder.append("Content-Type: text/html; charset=utf-8\n");
