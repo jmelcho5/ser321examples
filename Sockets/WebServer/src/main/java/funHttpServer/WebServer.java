@@ -298,8 +298,8 @@ class WebServer {
           for (String queryParams : queryParam) {
             System.out.println(queryParams);
           }
-          System.out.println(queryParams[0]);
-          System.out.println(queryParams[2]);
+          System.out.println(queryParam[0]);
+          System.out.println(queryParam[2]);
 
           String json = fetchURL("https://api.github.com/" + query_pairs.get("query"));
           System.out.println(json);
