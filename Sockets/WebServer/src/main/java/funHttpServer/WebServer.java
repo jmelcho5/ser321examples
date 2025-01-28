@@ -397,20 +397,20 @@ class WebServer {
             builder.append("\n");
             builder.append("Please enter the quiz parameter, e.g. quiz=85\n");
           } else {
-
             for (String key : query_pairs.keySet()) {
               if (error == false) {
                 if (!key.equals("assign") || !key.equals("quiz") || !key.equals("exam")) {
-                  builder.append("HTTP/1.1 406 Not Acceptable\n");
-                  builder.append("Content-Type: text/html; charset=utf-8\n");
-                  builder.append("\n");
-                  builder.append("Please enter assignment, quiz, and exam scores only.\n");
                   error = true;
                 }
               }
             }
 
-            if (error == false) {
+            if (error == true) {
+              builder.append("HTTP/1.1 406 Not Acceptable\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("Please enter assignment, quiz, and exam scores only.\n");
+            } else {
               try {
                 assignment = Double.parseDouble(query_pairs.get("assign"));
                 quiz = Double.parseDouble(query_pairs.get("quiz"));
