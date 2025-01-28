@@ -353,13 +353,13 @@ class WebServer {
               }
             }
           }
-        } else if (request.contains("currentGradeEarned?")) {
+        } else if (request.contains("currentGrade?")) {
           // This uses the points earned on assignments, quizzes, and the exam in SER321 to
           // calculate the individuals overall grade in the class.
 
           Map<String, String> query_pairs = new LinkedHashMap<String, String>();
           // extract path parameters
-          String parameters = request.replace("currentGradeEarned?", "");
+          String parameters = request.replace("currentGrade?", "");
 
           if (!parameters.equals("")) {
             query_pairs = splitQuery(parameters);
@@ -368,13 +368,13 @@ class WebServer {
           System.out.println("query_pairs: " + query_pairs);
 
           // extract required fields from parameters
-          float assignment = null; // Integer.parseInt(query_pairs.get("assign"));
-          float quiz = null; // Integer.parseInt(query_pairs.get("quiz"));
-          float exam = null; // Integer.parseInt(query_pairs.get("exam"));
+          Float assignment = null; // Integer.parseInt(query_pairs.get("assign"));
+          Float quiz = null; // Integer.parseInt(query_pairs.get("quiz"));
+          Float exam = null; // Integer.parseInt(query_pairs.get("exam"));
 
-          float assignTotal = 600;
-          float quizTotal = 100;
-          float examTotal = 300;
+          Float assignTotal = 600;
+          Float quizTotal = 100;
+          Float examTotal = 300;
 
           // TODO: Include error handling here with a correct error code and
           // a response that makes sense
