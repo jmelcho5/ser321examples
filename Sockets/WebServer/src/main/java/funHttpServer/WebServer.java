@@ -202,9 +202,9 @@ class WebServer {
           query_pairs = splitQuery(request.replace("multiply?", ""));
 
           // Integer to store values of parameters
-          Integer number1 = 0;
-          Integer number2 = 0;
-          // Variable of type int to store whether path parameters are valid
+          Integer number1 = null;
+          Integer number2 = null;
+          // Variable of type int to store whether query parameters are valid
           int valid = 1;
 
           try {
