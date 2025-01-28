@@ -372,9 +372,9 @@ class WebServer {
           Float quiz = null; // Integer.parseInt(query_pairs.get("quiz"));
           Float exam = null; // Integer.parseInt(query_pairs.get("exam"));
 
-          Float assignTotal = 600;
-          Float quizTotal = 100;
-          Float examTotal = 300;
+          Float assignTotal = 600.0;
+          Float quizTotal = 100.0;
+          Float examTotal = 300.0;
 
           // TODO: Include error handling here with a correct error code and
           // a response that makes sense
@@ -400,22 +400,22 @@ class WebServer {
               quiz = Float.parseFloat(query_pairs.get("quiz"));
 
               if (!query_pairs.containsKey("exam")) {
-                exam = 0;
+                exam = 0.0;
               } else {
                 exam = Float.parseFloat(query_pairs.get("exam"));
               }
 
               // do math
-              Float grade = ((assignment/assignTotal * 60) + (quiz/quizTotal * 10) + (exam/examTotal * 30));
+              Float grade = ((assignment/assignTotal * 60.0) + (quiz/quizTotal * 10.0) + (exam/examTotal * 30.0));
 
               String letterGrade = "";
-              if (grade >= 90) {
+              if (grade >= 90.0) {
                 letterGrade = "A";
-              } else if (grade >= 80) {
+              } else if (grade >= 80.0) {
                 letterGrade = "B";
-              } else if (grade >= 70) {
+              } else if (grade >= 70.0) {
                 letterGrade = "C";
-              } else if (grade >= 60) {
+              } else if (grade >= 60.0) {
                 letterGrade = "D";
               } else {
                 letterGrade = "F";
