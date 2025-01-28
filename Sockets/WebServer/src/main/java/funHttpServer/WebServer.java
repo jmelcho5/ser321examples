@@ -368,13 +368,13 @@ class WebServer {
           System.out.println("query_pairs: " + query_pairs);
 
           // extract required fields from parameters
-          Float assignment = null; // Integer.parseInt(query_pairs.get("assign"));
-          Float quiz = null; // Integer.parseInt(query_pairs.get("quiz"));
-          Float exam = null; // Integer.parseInt(query_pairs.get("exam"));
+          Double assignment = null; // Integer.parseInt(query_pairs.get("assign"));
+          Double quiz = null; // Integer.parseInt(query_pairs.get("quiz"));
+          Double exam = null; // Integer.parseInt(query_pairs.get("exam"));
 
-          Float assignTotal = 600.0;
-          Float quizTotal = 100.0;
-          Float examTotal = 300.0;
+          Double assignTotal = 600.0;
+          Double quizTotal = 100.0;
+          Double examTotal = 300.0;
 
           // TODO: Include error handling here with a correct error code and
           // a response that makes sense
@@ -396,17 +396,17 @@ class WebServer {
             builder.append("Please enter the quiz parameter, e.g. assign=540\n");
           } else {
             try {
-              assignment = Float.parseFloat(query_pairs.get("assign"));
-              quiz = Float.parseFloat(query_pairs.get("quiz"));
+              assignment = Double.parseDouble(query_pairs.get("assign"));
+              quiz = Double.parseDouble(query_pairs.get("quiz"));
 
               if (!query_pairs.containsKey("exam")) {
                 exam = 0.0;
               } else {
-                exam = Float.parseFloat(query_pairs.get("exam"));
+                exam = Double.parseDouble(query_pairs.get("exam"));
               }
 
               // do math
-              Float grade = ((assignment/assignTotal * 60.0) + (quiz/quizTotal * 10.0) + (exam/examTotal * 30.0));
+              Double grade = ((assignment/assignTotal * 60.0) + (quiz/quizTotal * 10.0) + (exam/examTotal * 30.0));
 
               String letterGrade = "";
               if (grade >= 90.0) {
