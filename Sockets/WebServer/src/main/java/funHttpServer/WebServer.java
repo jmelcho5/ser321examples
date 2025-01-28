@@ -206,7 +206,7 @@ class WebServer {
           // Variable of type int to store error code when query is invalid
           int error_code = 200;
 
-          if (query_pairs.size() == 0 || query_pairs.size() == 1 || query_pairs.size > 2) {
+          if (query_pairs.size() == 0 || query_pairs.size() == 1 || query_pairs.size() > 2) {
             error_code = 400;
           }
 
@@ -219,7 +219,7 @@ class WebServer {
           } finally {
             if (error_code == 200) {
               // do math
-              Integer result = number1 * number2;
+              Integer result = num1 * num2;
 
               // Generate response
               builder.append("HTTP/1.1 200 OK\n");
