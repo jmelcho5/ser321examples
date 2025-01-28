@@ -376,6 +376,8 @@ class WebServer {
           Double quizTotal = 100.0;
           Double examTotal = 300.0;
 
+          boolean error = false;
+
           // TODO: Include error handling here with a correct error code and
           // a response that makes sense
 
@@ -395,8 +397,6 @@ class WebServer {
             builder.append("\n");
             builder.append("Please enter the quiz parameter, e.g. quiz=85\n");
           } else {
-
-            boolean error = false;
 
             for (String key : query_pairs.keySet()) {
               if (error == false) {
