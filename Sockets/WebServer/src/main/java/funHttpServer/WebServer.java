@@ -290,17 +290,14 @@ class WebServer {
 
           String parameters = request.replace("github?", "");
 
-          String query = null;
-
-
           if (!parameters.equals("")) {
             query_pairs = splitQuery(request.replace("github?", ""));
           }
 
-          String[] parameters = query_pairs.get("query");
-          System.out.println(parameters);
-
-          // System.out.println("query_pairs: " + query_pairs);
+          String[] queryParam = query_pairs.get("query").split("/");
+          for (String queryParams : queryParam) {
+            System.out.println(queryParams);
+          }
 
           String json = fetchURL("https://api.github.com/" + query_pairs.get("query"));
           System.out.println(json);
@@ -337,7 +334,6 @@ class WebServer {
 
               for (int i = 0; i < gitHubArray.length(); i++) {
                 JSONObject newRepo = gitHubArray.getJSONObject(i);
-                System.out.println("Repo: " + newRepo + "\n");
 
                 String repoName = newRepo.getString("full_name");
                 int repoID = newRepo.getInt("id");
