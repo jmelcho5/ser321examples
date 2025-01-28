@@ -206,7 +206,7 @@ class WebServer {
           Integer num2 = Integer.parseInt(query_pairs.get("num2"));
 
           // do math
-          Integer result = number1 * number2;
+          Integer result = num1 * num2;
 
           // Generate response
           builder.append("HTTP/1.1 200 OK\n");
@@ -267,8 +267,8 @@ class WebServer {
             builder.append("Error Code 400: Please enter two query parameters, e.g. num1=1&num2=2\n");
           } else {
             try {
-              Integer num1 = Integer.parseInt(query_pairs.get("num1"));
-              Integer num2 = Integer.parseInt(query_pairs.get("num2"));
+              num1 = Integer.parseInt(query_pairs.get("num1"));
+              num2 = Integer.parseInt(query_pairs.get("num2"));
             } catch (NumberFormatException numberFormatException) {
               builder.append("HTTP/1.1 406 Not Acceptable\n");
               builder.append("Content-Type: text/html; charset=utf-8\n");
@@ -276,7 +276,7 @@ class WebServer {
               builder.append("Error Code 406: Please enter integer values only.\n");
             }
           }
-          
+
         } else if (request.contains("github?")) {
           // pulls the query from the request and runs it with GitHub's REST API
           // check out https://docs.github.com/rest/reference/
