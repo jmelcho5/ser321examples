@@ -25,6 +25,7 @@ import java.util.Random;
 import java.util.Map;
 import java.util.LinkedHashMap;
 import java.nio.charset.Charset;
+import org.json.*;
 
 class WebServer {
   public static void main(String args[]) {
@@ -293,15 +294,15 @@ class WebServer {
             query_pairs = splitQuery(request.replace("github?", ""));
           }
 
-          System.out.println("query_pairs: " + query_pairs);
+          // System.out.println("query_pairs: " + query_pairs);
 
           String json = fetchURL("https://api.github.com/" + query_pairs.get("query"));
           System.out.println(json);
 
-          builder.append("HTTP/1.1 200 OK\n");
-          builder.append("Content-Type: text/html; charset=utf-8\n");
-          builder.append("\n");
-          builder.append("Check the todos mentioned in the Java source file");
+//          builder.append("HTTP/1.1 200 OK\n");
+//          builder.append("Content-Type: text/html; charset=utf-8\n");
+//          builder.append("\n");
+//          builder.append("Check the todos mentioned in the Java source file");
           // TODO: Parse the JSON returned by your fetch and create an appropriate
           // response based on what the assignment document asks for
 
@@ -310,8 +311,37 @@ class WebServer {
             builder.append("Content-Type: text/html; charset=utf-8\n");
             builder.append("\n");
             builder.append("Please enter query, e.g. query=users/amehlhase316/repos\n");
-          }
+          } else if (json.equals("")) {
+            builder.append("HTTP/1.1 404 Not Found\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Github could not be found. Please try again.\n");
+          } else {
+            JSONArray gitHubArray = null;
+            try {
+              gitHubArray = new JSONArray(json);
 
+              builder.append("HTTP/1.1 200 OK\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+
+              for (int i = 0; i < gitHubArray.length(); i++) {
+                JSONObject newRepo = gitHubArray.getJSONObject(i);
+
+                String repoName = newRepo.getObject("full_name");
+                String repoID = newRepo.getObject("id");
+                String login = newRepo.getJSONObject("owner").getString("login");
+
+                builder.append("Repository " + i + " - fullname: " + repoName + " id: " + repoID + " login: " + login + "\n");
+                builder.append("\n");
+              }
+            } catch (Exception e) {
+              builder.append("HTTP/1.1 204 No Content\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("This github does not have public repositories.\n");
+            }
+          }
         } else {
           // if the request is not recognized at all
 
