@@ -210,7 +210,9 @@ class WebServer {
           try {
             // extract required fields from parameters
             number1 = Integer.parseInt(query_pairs.get("num1"));
+            System.out.println(number1);
             number2 = Integer.parseInt(query_pairs.get("num2"));
+            System.out.println(number2);
           } catch (NumberFormatException numberFormatException) {
             builder.append("HTTP/1.1 406 Not Acceptable\n");
             builder.append("Content-Type: text/html; charset=utf-8\n");
