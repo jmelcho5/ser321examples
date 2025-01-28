@@ -201,47 +201,19 @@ class WebServer {
           // extract path parameters
           query_pairs = splitQuery(request.replace("multiply?", ""));
 
-         // System.out.println("Query: " + query_pairs + ".\n");
+          // extract required fields from parameters
+          Integer num1 = null; // Integer.parseInt(query_pairs.get("num1"));
+          Integer num2 = null; // Integer.parseInt(query_pairs.get("num2"));
 
-          // Variable of type int to store error code when query is invalid
-          int error_code = 200;
-
-          if (query_pairs.size() == 0 || query_pairs.size() == 1 || query_pairs.size() > 2) {
-            error_code = 400;
-          }
-
-          Integer num1 = null;
-          Integer num2 = null;
-
-          try {
-            // extract required fields from parameters
-            num1 = Integer.parseInt(query_pairs.get("num1"));
-            num2 = Integer.parseInt(query_pairs.get("num2"));
-          } catch (NumberFormatException numberFormatException) {
-            error_code = 406;
-          } finally {
-            if (error_code == 200) {
-              // do math
-              Integer result = num1 * num2;
-
-              // Generate response
-              builder.append("HTTP/1.1 200 OK\n");
-              builder.append("Content-Type: text/html; charset=utf-8\n");
-              builder.append("\n");
-              builder.append("Result is: " + result);
-            } else if (error_code == 400) {
-              builder.append("HTTP/1.1 400 Bad Request\n");
-              builder.append("Content-Type: text/html; charset=utf-8\n");
-              builder.append("\n");
-              builder.append("Error Code 400: Please enter two query parameters, e.g. num1=1&num2=2\n");
-            } else if (error_code == 406) {
-              builder.append("HTTP/1.1 406 Not Acceptable\n");
-              builder.append("Content-Type: text/html; charset=utf-8\n");
-              builder.append("\n");
-              builder.append("Error Code 406: Please enter integer values only.\n");
-            }
-          }
+//          // do math
+//          Integer result = num1 * num2;
 //
+//          // Generate response
+//          builder.append("HTTP/1.1 200 OK\n");
+//          builder.append("Content-Type: text/html; charset=utf-8\n");
+//          builder.append("\n");
+//          builder.append("Result is: " + result);
+
 ////          // Integer to store values of parameters
 ////          Integer number1 = null;
 ////          Integer number2 = null;
@@ -260,29 +232,76 @@ class WebServer {
 ////            builder.append("\n");
 ////            builder.append("Error Code 406: Please enter integer values only.\n");
 ////            valid = 0;
-////          }catch (IllegalArgumentException illegalArgumentException) {
+////          } catch (IllegalArgumentException illegalArgumentException) {
 ////            builder.append("HTTP/1.1 400 Bad Request\n");
 ////            builder.append("Content-Type: text/html; charset=utf-8\n");
 ////            builder.append("\n");
 ////            builder.append("Error Code 400: Please enter two query parameters, e.g. num1=1&num2=2\n");
 ////            valid = 0;
 ////          }
-////
-////          if (valid == 1) {
-////            // do math
-////            Integer result = number1 * number2;
-////
-////            // Generate response
-////            builder.append("HTTP/1.1 200 OK\n");
-////            builder.append("Content-Type: text/html; charset=utf-8\n");
-////            builder.append("\n");
-////            builder.append("Result is: " + result);
-////          }
+
+          // TODO: Include error handling here with a correct error code and
+          // a response that makes sense
+
+          if (query_pairs.isEmpty() || !query_pairs.containsKey("num1") || !query_pairs.containsKey("num2")) {
+            builder.append("HTTP/1.1 400 Bad Request\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Error Code 400: Please enter two query parameters, e.g. num1=1&num2=2\n");
+          } else {
+            try {
+              num1 = Integer.parseInt(query_pairs.get("num1"));
+              num2 = Integer.parseInt(query_pairs.get("num2"));
+
+              // do math
+              Integer result = num1 * num2;
+
+              // Generate response
+              builder.append("HTTP/1.1 200 OK\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("Result is: " + result);
+            } catch (NumberFormatException e) {
+              builder.append("HTTP/1.1 406 Not Acceptable\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("Error Code 406: Please enter integer values only.\n");
+            }
+          }
+
+//          Integer num1 = null; Integer.parseInt(query_pairs.get("num1"));
+//          Integer num2 = null; Integer.parseInt(query_pairs.get("num2"));
 //
-//          // TODO: Include error handling here with a correct error code and
-//          // a response that makes sense
+//          Integer multiply = null;
 //
-//          if (query_pairs.isEmpty()) {
+//          try {
+//            num1 = Integer.parseInt(query_pairs.get("num1"));
+//            num2 = Integer.parseInt(query_pairs.get("num2"));
+//          } catch (IllegalArgumentException e) {
+//            builder.append("HTTP/1.1 400 Bad Request\n");
+//            builder.append("Content-Type: text/html; charset=utf-8\n");
+//            builder.append("\n");
+//            builder.append("Error Code 400: Please enter two query parameters, e.g. num1=1&num2=2\n");
+//            valid = 0;
+//          }
+//
+//          try {
+//            multiply = num1 * num2;
+//
+//            // Generate response
+//            builder.append("HTTP/1.1 200 OK\n");
+//            builder.append("Content-Type: text/html; charset=utf-8\n");
+//            builder.append("\n");
+//            builder.append("Result is: " + multiply);
+//          } catch (NumberFormatException numberFormatException) {
+//            builder.append("HTTP/1.1 406 Not Acceptable\n");
+//            builder.append("Content-Type: text/html; charset=utf-8\n");
+//            builder.append("\n");
+//            builder.append("Error Code 406: Please enter integer values only.\n");
+//            valid = 0;
+//          }
+
+//          if (query_pairs == null) {
 //            builder.append("HTTP/1.1 400 Bad Request\n");
 //            builder.append("Content-Type: text/html; charset=utf-8\n");
 //            builder.append("\n");
@@ -305,17 +324,6 @@ class WebServer {
 //              builder.append("Error Code 406: Please enter integer values only.\n");
 //              valid = 0;
 //            }
-//          }
-//
-//          if (valid == 1) {
-//            // do math
-//            Integer result = num1 * num2;
-//
-//            // Generate response
-//            builder.append("HTTP/1.1 200 OK\n");
-//            builder.append("Content-Type: text/html; charset=utf-8\n");
-//            builder.append("\n");
-//            builder.append("Result is: " + result);
 //          }
 
         } else if (request.contains("github?")) {
