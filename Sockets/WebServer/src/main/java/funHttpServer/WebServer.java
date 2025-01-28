@@ -292,6 +292,7 @@ class WebServer {
 
           if (!parameters.equals("")) {
             query_pairs = splitQuery(request.replace("github?", ""));
+            System.out.println("query_pairs: " + query_pairs);
           }
 
           // System.out.println("query_pairs: " + query_pairs);
