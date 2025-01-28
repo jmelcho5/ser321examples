@@ -247,7 +247,7 @@ class WebServer {
 
           // NEED TO HANDLE WHEN NO PARAMETERS/INPUTS ARE ENTERED
 
-          if (query_pairs == null || !query_pairs.containsKey("num1") || !query_pairs.containsKey("num2")) {
+          if (query_pairs.size() == 0 || !query_pairs.containsKey("num1") || !query_pairs.containsKey("num2")) {
             builder.append("HTTP/1.1 400 Bad Request\n");
             builder.append("Content-Type: text/html; charset=utf-8\n");
             builder.append("\n");
