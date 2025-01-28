@@ -393,47 +393,63 @@ class WebServer {
             builder.append("HTTP/1.1 400 Bad Request\n");
             builder.append("Content-Type: text/html; charset=utf-8\n");
             builder.append("\n");
-            builder.append("Please enter the quiz parameter, e.g. assign=540\n");
+            builder.append("Please enter the quiz parameter, e.g. quiz=85\n");
           } else {
-            try {
-              assignment = Double.parseDouble(query_pairs.get("assign"));
-              quiz = Double.parseDouble(query_pairs.get("quiz"));
 
-              if (!query_pairs.containsKey("exam")) {
-                exam = 0.0;
-              } else {
-                exam = Double.parseDouble(query_pairs.get("exam"));
+            boolean error = false;
+
+            for (String key : query_pairs.keySet()) {
+              if (error == false) {
+                if (!key.equals("assign") || !key.equals("quiz") || !key.equals("exam")) {
+                  builder.append("HTTP/1.1 406 Not Acceptable\n");
+                  builder.append("Content-Type: text/html; charset=utf-8\n");
+                  builder.append("\n");
+                  builder.append("Please enter assignment, quiz, and exam scores only.\n");
+                  error = true;
+                }
               }
+            }
 
-              // do math
-              Double grade = ((assignment/assignTotal * 60.0) + (quiz/quizTotal * 10.0) + (exam/examTotal * 30.0));
+            if (error == false) {
+              try {
+                assignment = Double.parseDouble(query_pairs.get("assign"));
+                quiz = Double.parseDouble(query_pairs.get("quiz"));
 
-              String letterGrade = "";
-              if (grade >= 90.0) {
-                letterGrade = "A";
-              } else if (grade >= 80.0) {
-                letterGrade = "B";
-              } else if (grade >= 70.0) {
-                letterGrade = "C";
-              } else if (grade >= 60.0) {
-                letterGrade = "D";
-              } else {
-                letterGrade = "F";
+                if (!query_pairs.containsKey("exam")) {
+                  exam = 0.0;
+                } else {
+                  exam = Double.parseDouble(query_pairs.get("exam"));
+                }
+
+                // do math
+                Double grade = ((assignment / assignTotal * 60.0) + (quiz / quizTotal * 10.0) + (exam / examTotal * 30.0));
+
+                String letterGrade = "";
+                if (grade >= 90.0) {
+                  letterGrade = "A";
+                } else if (grade >= 80.0) {
+                  letterGrade = "B";
+                } else if (grade >= 70.0) {
+                  letterGrade = "C";
+                } else if (grade >= 60.0) {
+                  letterGrade = "D";
+                } else {
+                  letterGrade = "F";
+                }
+
+                // Generate response
+                builder.append("HTTP/1.1 200 OK\n");
+                builder.append("Content-Type: text/html; charset=utf-8\n");
+                builder.append("\n");
+                builder.append("Calculation is: " + grade + "     FINAL GRADE: " + letterGrade + "\n");
+              } catch (NumberFormatException e) {
+                builder.append("HTTP/1.1 406 Not Acceptable\n");
+                builder.append("Content-Type: text/html; charset=utf-8\n");
+                builder.append("\n");
+                builder.append("Please enter number values only.\n");
               }
-
-              // Generate response
-              builder.append("HTTP/1.1 200 OK\n");
-              builder.append("Content-Type: text/html; charset=utf-8\n");
-              builder.append("\n");
-              builder.append("Calculation is: " + grade + "FINAL GRADE: " + letterGrade + "\n");
-            } catch (NumberFormatException e) {
-              builder.append("HTTP/1.1 406 Not Acceptable\n");
-              builder.append("Content-Type: text/html; charset=utf-8\n");
-              builder.append("\n");
-              builder.append("Error Code 406: Please enter number values only.\n");
             }
           }
-
         } else {
           // if the request is not recognized at all
 
