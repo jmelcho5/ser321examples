@@ -334,7 +334,7 @@ class WebServer {
                 System.out.println("Repo: " + newRepo + "\n");
 
                 String repoName = newRepo.getString("full_name");
-                int repoID = (int) newRepo.getString("id");
+                Integer repoID = Integer.parseInt(newRepo.getString("id"));
                 String login = newRepo.getJSONObject("owner").getString("login");
 
                 builder.append("Repository " + i + " - fullname: " + repoName + " id: " + repoID + " login: " + login + "\n");
