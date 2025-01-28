@@ -292,11 +292,13 @@ class WebServer {
 
           String query = null;
 
+
           if (!parameters.equals("")) {
             query_pairs = splitQuery(request.replace("github?", ""));
-
-            query = query_pairs.get("query");
           }
+
+          String[] parameters = query_pairs.get("query");
+          System.out.println(parameters);
 
           // System.out.println("query_pairs: " + query_pairs);
 
@@ -315,11 +317,6 @@ class WebServer {
             builder.append("Content-Type: text/html; charset=utf-8\n");
             builder.append("\n");
             builder.append("Please enter query, e.g. query=users/amehlhase316/repos\n");
-          } else if (!query.equals("users/amehlhase316/repos")) {
-            builder.append("HTTP/1.1 400 Bad Request\n");
-            builder.append("Content-Type: text/html; charset=utf-8\n");
-            builder.append("\n");
-            builder.append("Please enter valid query, e.g. query=users/amehlhase316/repos\n");
           } else if (json.equals("")) {
             builder.append("HTTP/1.1 404 Not Found\n");
             builder.append("Content-Type: text/html; charset=utf-8\n");
