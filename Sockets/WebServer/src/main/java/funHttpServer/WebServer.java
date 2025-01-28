@@ -353,6 +353,87 @@ class WebServer {
               }
             }
           }
+        } else if (request.contains("currentGradeEarned?")) {
+          // This uses the points earned on assignments, quizzes, and the exam in SER321 to
+          // calculate the individuals overall grade in the class.
+
+          Map<String, String> query_pairs = new LinkedHashMap<String, String>();
+          // extract path parameters
+          String parameters = request.replace("currentGradeEarned?", "");
+
+          if (!parameters.equals("")) {
+            query_pairs = splitQuery(parameters);
+          }
+
+          System.out.println("query_pairs: " + query_pairs);
+
+          // extract required fields from parameters
+          float assignment = null; // Integer.parseInt(query_pairs.get("assign"));
+          float quiz = null; // Integer.parseInt(query_pairs.get("quiz"));
+          float exam = null; // Integer.parseInt(query_pairs.get("exam"));
+
+          float assignTotal = 600;
+          float quizTotal = 100;
+          float examTotal = 300;
+
+          // TODO: Include error handling here with a correct error code and
+          // a response that makes sense
+
+          if (query_pairs.size() == 0) {
+            builder.append("HTTP/1.1 400 Bad Request\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Please enter at least the assignment and quiz parameters, e.g. assign=540&quiz=85\n");
+          } else if (!query_pairs.containsKey("assign")) {
+            builder.append("HTTP/1.1 400 Bad Request\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Please enter the assignment parameter, e.g. assign=540\n");
+          } else if (!query_pairs.containsKey("quiz")) {
+            builder.append("HTTP/1.1 400 Bad Request\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Please enter the quiz parameter, e.g. assign=540\n");
+          } else {
+            try {
+              assignment = Float.parseFloat(query_pairs.get("assign"));
+              quiz = Float.parseFloat(query_pairs.get("quiz"));
+
+              if (!query_pairs.containsKey("exam")) {
+                exam = 0;
+              } else {
+                exam = Float.parseFloat(query_pairs.get("exam"));
+              }
+
+              // do math
+              Float grade = ((assignment/assignTotal * 60) + (quiz/quizTotal * 10) + (exam/examTotal * 30));
+
+              String letterGrade = "";
+              if (grade >= 90) {
+                letterGrade = "A";
+              } else if (grade >= 80) {
+                letterGrade = "B";
+              } else if (grade >= 70) {
+                letterGrade = "C";
+              } else if (grade >= 60) {
+                letterGrade = "D";
+              } else {
+                letterGrade = "F";
+              }
+
+              // Generate response
+              builder.append("HTTP/1.1 200 OK\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("Calculation is: " + grade + "FINAL GRADE: " + letterGrade + "\n");
+            } catch (NumberFormatException e) {
+              builder.append("HTTP/1.1 406 Not Acceptable\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("Error Code 406: Please enter number values only.\n");
+            }
+          }
+
         } else {
           // if the request is not recognized at all
 
