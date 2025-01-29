@@ -528,7 +528,7 @@ class WebServer {
               builder.append("Content-Type: text/html; charset=utf-8\n");
               builder.append("\n");
               builder.append("The change is: " + change + "Distribute coins:  Quarters - " + quarters + " Dimes - " +
-                      dimes + " Nickels - " + nickels + " Pennies - " + pennies"\n");
+                      dimes + " Nickels - " + nickels + " Pennies - " + pennies + "\n");
             } catch (NumberFormatException e) {
               builder.append("HTTP/1.1 406 Not Acceptable\n");
               builder.append("Content-Type: text/html; charset=utf-8\n");
