@@ -377,6 +377,7 @@ class WebServer {
           Double examTotal = 300.0;
 
           boolean error = false;
+          System.out.println("Error: " + error);
 
           // TODO: Include error handling here with a correct error code and
           // a response that makes sense
