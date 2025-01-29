@@ -513,19 +513,19 @@ class WebServer {
                   double coins = change - dollars;
                   System.out.println("Coins: " + coins);
 
-                  double quarters = Math.abs(coins / 0.25);
-                  if (quarters > 0.0) {
+                  int quarters = (int)(coins / 0.25);
+                  if (quarters > 0) {
                     coins = coins - (quarters * 0.25);
                   }
-                  double dimes = Math.abs(coins / 0.10);
-                  if (dimes > 0.0) {
+                  int dimes = (int)(coins / 0.10);
+                  if (dimes > 0) {
                     coins = coins - (dimes * 0.10);
                   }
-                  double nickels = Math.abs(coins / 0.05);
+                  int nickels = (int)(coins / 0.05);
                   if (nickels > 0.0) {
                     coins = coins - (nickels * 0.05);
                   }
-                  double pennies = Math.abs(coins / 0.01);
+                  int pennies = (int)(coins / 0.01);
                   if (pennies > 0.0) {
                     coins = coins - (pennies * 0.01);
                   }
