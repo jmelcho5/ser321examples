@@ -449,6 +449,94 @@ class WebServer {
                 builder.append("Please enter number values only.\n");
               }
             }
+        } else if (request.contains("cashier?")) {
+          // This calculates the change that needs to be given to a customer based on the total and the amount paid
+          // to the cashier.
+
+          Map<String, String> query_pairs = new LinkedHashMap<String, String>();
+          // extract path parameters
+          String parameters = request.replace("cashier?", "");
+
+          if (!parameters.equals("")) {
+            query_pairs = splitQuery(request.replace("cashier?", ""));
+          }
+
+          System.out.println("query_pairs: " + query_pairs);
+
+          // extract required fields from parameters
+          Double price = null; // Integer.parseInt(query_pairs.get("num1"));
+          Double paid = null; // Integer.parseInt(query_pairs.get("num2"));
+
+          // TODO: Include error handling here with a correct error code and
+          // a response that makes sense
+
+          if (query_pairs.size() == 0 || !query_pairs.containsKey("price") || !query_pairs.containsKey("paid")) {
+            builder.append("HTTP/1.1 400 Bad Request\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Please enter the price and paid parameters, e.g. price=21.50&paid=22.00\n");
+          } else if (!query_pairs.containsKey("price")) {
+            builder.append("HTTP/1.1 400 Bad Request\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Please enter the price parameter, e.g. price=23.23\n");
+          } else if (!query_pairs.containsKey("paid")) {
+            builder.append("HTTP/1.1 400 Bad Request\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Please enter the paid parameter, e.g. paid=24.00\n");
+          } else if (query_pairs.get("paid") < 0.0 || query_pairs.get("price") < 0.0) {
+            builder.append("HTTP/1.1 400 Bad Request\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("Please enter values that are equal to or greater than 0.00\n");
+          } else if (query_pairs.get("paid") < query_pairs.get("price")) {
+            builder.append("HTTP/1.1 400 Bad Request\n");
+            builder.append("Content-Type: text/html; charset=utf-8\n");
+            builder.append("\n");
+            builder.append("The payment is not enough to cover the price. Try again!\n");
+          } else {
+            try {
+              price = Double.parseDouble(query_pairs.get("price"));
+              paid = Double.parseDouble(query_pairs.get("paid"));
+
+              // do math
+              Double change = paid - price;
+
+              Double bills = Math.abs(change);
+              Double coins = change / bills;
+
+              Double quarters = Math.abs(coins / 0.25);
+              if (quarters > 0.0) {
+                coins = coins - (quarters * 0.25);
+              }
+              Double dimes = Math.abs(coins / 0.10);
+              if (dimes > 0.0) {
+                coins = coins - (dimes * 0.10);
+              }
+              Double nickels = Math.abs(coins / 0.05);
+              if (nickels > 0.0) {
+                coins = coins - (nickels * 0.05);
+              }
+              Double pennies = Math.abs(coins / 0.01);
+              if (pennies > 0.0) {
+                coins = coins - (pennies * 0.01);
+              }
+
+              // Generate response
+              builder.append("HTTP/1.1 200 OK\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("The change is: " + change + "Distribute coins:  Quarters - " + quarters + " Dimes - " +
+                      dimes + " Nickels - " + nickels + " Pennies - " + pennies"\n");
+            } catch (NumberFormatException e) {
+              builder.append("HTTP/1.1 406 Not Acceptable\n");
+              builder.append("Content-Type: text/html; charset=utf-8\n");
+              builder.append("\n");
+              builder.append("Please enter number values only.\n");
+            }
+          }
+
         } else {
           // if the request is not recognized at all
 
