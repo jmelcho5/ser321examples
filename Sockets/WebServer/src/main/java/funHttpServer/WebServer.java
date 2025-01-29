@@ -485,52 +485,54 @@ class WebServer {
             builder.append("Content-Type: text/html; charset=utf-8\n");
             builder.append("\n");
             builder.append("Please enter the paid parameter, e.g. paid=24.00\n");
-          } else if (query_pairs.get("paid") < 0.0 || query_pairs.get("price") < 0.0) {
-            builder.append("HTTP/1.1 400 Bad Request\n");
-            builder.append("Content-Type: text/html; charset=utf-8\n");
-            builder.append("\n");
-            builder.append("Please enter values that are equal to or greater than 0.00\n");
           } else {
             try {
               price = Double.parseDouble(query_pairs.get("price"));
               paid = Double.parseDouble(query_pairs.get("paid"));
 
-              // do math
-              Double change = paid - price;
-
-              if (change < 0) {
-                // Generate response
+              if (price < 0 || paid < 0) {
                 builder.append("HTTP/1.1 200 OK\n");
                 builder.append("Content-Type: text/html; charset=utf-8\n");
                 builder.append("\n");
                 builder.append("The payment is not enough, please try again!\n");
               } else {
-                Double bills = Math.abs(change);
-                Double coins = change / bills;
+                // do math
+                Double change = paid - price;
 
-                Double quarters = Math.abs(coins / 0.25);
-                if (quarters > 0.0) {
-                  coins = coins - (quarters * 0.25);
-                }
-                Double dimes = Math.abs(coins / 0.10);
-                if (dimes > 0.0) {
-                  coins = coins - (dimes * 0.10);
-                }
-                Double nickels = Math.abs(coins / 0.05);
-                if (nickels > 0.0) {
-                  coins = coins - (nickels * 0.05);
-                }
-                Double pennies = Math.abs(coins / 0.01);
-                if (pennies > 0.0) {
-                  coins = coins - (pennies * 0.01);
-                }
+                if (change < 0) {
+                  // Generate response
+                  builder.append("HTTP/1.1 200 OK\n");
+                  builder.append("Content-Type: text/html; charset=utf-8\n");
+                  builder.append("\n");
+                  builder.append("The payment is not enough, please try again!\n");
+                } else {
+                  Double bills = Math.abs(change);
+                  Double coins = change / bills;
 
-                // Generate response
-                builder.append("HTTP/1.1 200 OK\n");
-                builder.append("Content-Type: text/html; charset=utf-8\n");
-                builder.append("\n");
-                builder.append("The change is: " + change + "Distribute coins:  Quarters - " + quarters + " Dimes - " +
-                        dimes + " Nickels - " + nickels + " Pennies - " + pennies + "\n");
+                  Double quarters = Math.abs(coins / 0.25);
+                  if (quarters > 0.0) {
+                    coins = coins - (quarters * 0.25);
+                  }
+                  Double dimes = Math.abs(coins / 0.10);
+                  if (dimes > 0.0) {
+                    coins = coins - (dimes * 0.10);
+                  }
+                  Double nickels = Math.abs(coins / 0.05);
+                  if (nickels > 0.0) {
+                    coins = coins - (nickels * 0.05);
+                  }
+                  Double pennies = Math.abs(coins / 0.01);
+                  if (pennies > 0.0) {
+                    coins = coins - (pennies * 0.01);
+                  }
+
+                  // Generate response
+                  builder.append("HTTP/1.1 200 OK\n");
+                  builder.append("Content-Type: text/html; charset=utf-8\n");
+                  builder.append("\n");
+                  builder.append("The change is: " + change + "Distribute coins:  Quarters - " + quarters + " Dimes - " +
+                          dimes + " Nickels - " + nickels + " Pennies - " + pennies + "\n");
+                }
               }
             } catch (NumberFormatException e) {
               builder.append("HTTP/1.1 406 Not Acceptable\n");
