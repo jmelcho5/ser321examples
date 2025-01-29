@@ -508,7 +508,7 @@ class WebServer {
                   builder.append("\n");
                   builder.append("The payment is not enough, please try again!\n");
                 } else {
-                  double dollars = Math.abs(change);
+                  double dollars = Math.Floor(change);
                   System.out.println("Dollars: " + dollars);
                   double coins = change - dollars;
                   System.out.println("Coins: " + coins);
