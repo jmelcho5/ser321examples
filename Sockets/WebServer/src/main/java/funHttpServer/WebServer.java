@@ -507,7 +507,8 @@ class WebServer {
                   builder.append("The payment is not enough, please try again!\n");
                 } else {
                   Double bills = Math.abs(change);
-                  Double coins = change / bills;
+                  Double coins = change % bills;
+                  System.out.println("Coins: " + coins);
 
                   Double quarters = Math.abs(coins / 0.25);
                   if (quarters > 0.0) {
@@ -530,7 +531,7 @@ class WebServer {
                   builder.append("HTTP/1.1 200 OK\n");
                   builder.append("Content-Type: text/html; charset=utf-8\n");
                   builder.append("\n");
-                  builder.append("The change is: " + change + "Distribute coins:  Quarters - " + quarters + " Dimes - " +
+                  builder.append("The change is: " + change + "     DISTRIBUTE COINS:  Quarters - " + quarters + " Dimes - " +
                           dimes + " Nickels - " + nickels + " Pennies - " + pennies + "\n");
                 }
               }
