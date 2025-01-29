@@ -498,7 +498,7 @@ class WebServer {
                 builder.append("The payment is not enough, please try again!\n");
               } else {
                 // do math
-                Double change = paid - price;
+                double change = Math.round(paid.doubleValue() - price.doubleValue(), 2);
 
                 if (change < 0) {
                   // Generate response
