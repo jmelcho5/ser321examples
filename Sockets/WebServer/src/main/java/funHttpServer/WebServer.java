@@ -409,14 +409,30 @@ class WebServer {
                 Double grade = ((assignment / assignTotal * 60.0) + (quiz / quizTotal * 10.0) + (exam / examTotal * 30.0));
 
                 String letterGrade = "";
-                if (grade >= 90.0) {
+                if (grade >= 97.0) {
+                  letterGrade = "A+";
+                } else if (grade >= 93.0) {
                   letterGrade = "A";
-                } else if (grade >= 80.0) {
+                } else if (grade >= 90.0) {
+                  letterGrade = "A-";
+                } else if (grade >= 87.0) {
+                  letterGrade = "B+";
+                } else if (grade >= 83.0) {
                   letterGrade = "B";
-                } else if (grade >= 70.0) {
+                } else if (grade >= 80.0) {
+                  letterGrade = "B-";
+                } else if (grade >= 77.0) {
+                  letterGrade = "C+";
+                } else if (grade >= 73.0) {
                   letterGrade = "C";
-                } else if (grade >= 60.0) {
+                } else if (grade >= 70.0) {
+                  letterGrade = "C-";
+                } else if (grade >= 67.0) {
+                  letterGrade = "D+";
+                } else if (grade >= 63.0) {
                   letterGrade = "D";
+                } else if (grade >= 60.0) {
+                  letterGrade = "D-";
                 } else {
                   letterGrade = "F";
                 }
@@ -425,7 +441,7 @@ class WebServer {
                 builder.append("HTTP/1.1 200 OK\n");
                 builder.append("Content-Type: text/html; charset=utf-8\n");
                 builder.append("\n");
-                builder.append("Calculation is: " + grade + "     FINAL GRADE: " + letterGrade + "\n");
+                builder.append("Calculation is: " + grade + "     CURRENT GRADE: " + letterGrade + "\n");
               } catch (NumberFormatException e) {
                 builder.append("HTTP/1.1 406 Not Acceptable\n");
                 builder.append("Content-Type: text/html; charset=utf-8\n");
