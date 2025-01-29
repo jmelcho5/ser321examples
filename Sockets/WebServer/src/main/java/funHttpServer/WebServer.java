@@ -507,24 +507,24 @@ class WebServer {
                   builder.append("\n");
                   builder.append("The payment is not enough, please try again!\n");
                 } else {
-                  Double dollars = Math.abs(change);
+                  double dollars = Math.abs(change.doubleValue());
                   System.out.println("Dollars: " + dollars);
-                  Double coins = change - dollars;
+                  double coins = change.doubleValue() - dollars;
                   System.out.println("Coins: " + coins);
 
-                  Double quarters = Math.abs(coins / 0.25);
+                  double quarters = Math.abs(coins / 0.25);
                   if (quarters > 0.0) {
                     coins = coins - (quarters * 0.25);
                   }
-                  Double dimes = Math.abs(coins / 0.10);
+                  double dimes = Math.abs(coins / 0.10);
                   if (dimes > 0.0) {
                     coins = coins - (dimes * 0.10);
                   }
-                  Double nickels = Math.abs(coins / 0.05);
+                  double nickels = Math.abs(coins / 0.05);
                   if (nickels > 0.0) {
                     coins = coins - (nickels * 0.05);
                   }
-                  Double pennies = Math.abs(coins / 0.01);
+                  double pennies = Math.abs(coins / 0.01);
                   if (pennies > 0.0) {
                     coins = coins - (pennies * 0.01);
                   }
