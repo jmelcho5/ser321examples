@@ -433,7 +433,6 @@ class WebServer {
                 builder.append("Please enter number values only.\n");
               }
             }
-          }
         } else {
           // if the request is not recognized at all
 
