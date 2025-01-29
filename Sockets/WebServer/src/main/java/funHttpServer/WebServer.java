@@ -508,9 +508,9 @@ class WebServer {
                   builder.append("\n");
                   builder.append("The payment is not enough, please try again!\n");
                 } else {
-                  double dollars = Math.abs(change.doubleValue());
+                  double dollars = Math.abs(change);
                   System.out.println("Dollars: " + dollars);
-                  double coins = change.doubleValue() - dollars;
+                  double coins = change - dollars;
                   System.out.println("Coins: " + coins);
 
                   double quarters = Math.abs(coins / 0.25);
